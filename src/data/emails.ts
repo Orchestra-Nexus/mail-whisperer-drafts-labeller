@@ -30,7 +30,7 @@ export const emailData = [
       name: 'Samantha Lee',
       email: 'sam.lee@example.com'
     },
-    preview: 'Hi! Just wondering if you're free for dinner this Saturday? There\'s a new restaurant...',
+    preview: 'Hi! Just wondering if you\'re free for dinner this Saturday? There\'s a new restaurant...',
     body: `<p>Hi!</p>
     <p>Just wondering if you're free for dinner this Saturday? There's a new restaurant downtown that I've been wanting to try. They have amazing reviews for their pasta dishes.</p>
     <p>Let me know if you're interested and I'll make a reservation for around 7pm.</p>
