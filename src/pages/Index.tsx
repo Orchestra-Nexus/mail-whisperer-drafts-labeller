@@ -1,15 +1,17 @@
+
 import React, { useState } from 'react';
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import EmailSidebar from '@/components/EmailSidebar';
 import EmailList from '@/components/EmailList';
 import EmailDetail from '@/components/EmailDetail';
 import ComposeEmail from '@/components/ComposeEmail';
-import { emailData } from '@/data/emails';
+import ChatWindow from '@/components/ChatWindow';
 
 const Index = () => {
   const [activeView, setActiveView] = useState('inbox');
   const [selectedEmail, setSelectedEmail] = useState<any>(null);
   const [isComposing, setIsComposing] = useState(false);
+  const [isChatMinimized, setIsChatMinimized] = useState(true);
 
   const handleEmailClick = (email: any) => {
     setSelectedEmail(email);
@@ -17,6 +19,10 @@ const Index = () => {
 
   const handleBackToList = () => {
     setSelectedEmail(null);
+  };
+
+  const handleToggleChat = () => {
+    setIsChatMinimized(!isChatMinimized);
   };
 
   const renderMainContent = () => {
@@ -45,7 +51,11 @@ const Index = () => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gmail-lightgray">
-        <EmailSidebar activeView={activeView} setActiveView={setActiveView} />
+        <EmailSidebar 
+          activeView={activeView} 
+          setActiveView={setActiveView} 
+          onToggleChat={handleToggleChat}
+        />
         
         <main className="flex-1 p-4">
           <header className="mb-4 flex items-center justify-between">
@@ -61,6 +71,11 @@ const Index = () => {
             <ComposeEmail onClose={() => setIsComposing(false)} />
           )}
         </main>
+
+        <ChatWindow 
+          isMinimized={isChatMinimized} 
+          onMinimize={handleToggleChat} 
+        />
       </div>
     </SidebarProvider>
   );

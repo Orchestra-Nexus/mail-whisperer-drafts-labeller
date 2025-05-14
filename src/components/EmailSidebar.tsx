@@ -8,7 +8,8 @@ import {
   Tag, 
   Edit, 
   FilePlus,
-  FileX as Trash
+  FileX as Trash,
+  MessageCircle
 } from 'lucide-react';
 import { 
   Sidebar, 
@@ -23,10 +24,12 @@ import {
 
 const EmailSidebar = ({
   activeView,
-  setActiveView
+  setActiveView,
+  onToggleChat
 }: {
   activeView: string;
   setActiveView: (view: string) => void;
+  onToggleChat: () => void;
 }) => {
   // Main menu items
   const mainItems = [
@@ -137,6 +140,27 @@ const EmailSidebar = ({
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        
+        {/* Chat Assistant Button */}
+        <SidebarGroup>
+          <SidebarGroupLabel className="flex items-center gap-2 px-3 py-2">
+            <MessageCircle size={16} />
+            <span>Assistant</span>
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton 
+                  className="w-full flex items-center gap-3"
+                  onClick={onToggleChat}
+                >
+                  <MessageCircle size={18} className="text-gmail-blue" />
+                  <span>Chat with Assistant</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
