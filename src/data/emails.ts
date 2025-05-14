@@ -30,7 +30,7 @@ export const emailData = [
       name: 'Samantha Lee',
       email: 'sam.lee@example.com'
     },
-    preview: 'Hi! Just wondering if you're free for dinner this Saturday? There's a new restaurant...',
+    preview: 'Hi! Just wondering if you're free for dinner this Saturday? There\'s a new restaurant...',
     body: `<p>Hi!</p>
     <p>Just wondering if you're free for dinner this Saturday? There's a new restaurant downtown that I've been wanting to try. They have amazing reviews for their pasta dishes.</p>
     <p>Let me know if you're interested and I'll make a reservation for around 7pm.</p>
@@ -201,7 +201,7 @@ export const emailData = [
       name: 'Tesla Recruiting',
       email: 'recruiting@tesla.com'
     },
-    preview: 'We're excited to move forward with your application for the Software Engineer position. We'd like to schedule...',
+    preview: 'We\'re excited to move forward with your application for the Software Engineer position. We\'d like to schedule...',
     body: `<p>We're excited to move forward with your application for the Software Engineer position.</p>
     <p>We'd like to schedule a technical interview with our engineering team. The interview will focus on algorithms, data structures, and system design.</p>
     <p><strong>Available slots:</strong></p>
@@ -246,7 +246,7 @@ export const emailData = [
       name: 'HR Department',
       email: 'hr@company.com'
     },
-    preview: 'We're organizing a team building event next Friday at Adventure Park. Activities will include rock climbing...',
+    preview: 'We\'re organizing a team building event next Friday at Adventure Park. Activities will include rock climbing...',
     body: `<p>Hello Team,</p>
     <p>We're organizing a team building event next Friday at Adventure Park.</p>
     <p><strong>Details:</strong></p>
