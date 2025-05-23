@@ -1,24 +1,12 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Star, Tag } from 'lucide-react';
-import { emailData } from '@/data/emails';
+import { fetchEmails, Email } from '@/data/emails'; // Import fetchEmails and Email interface
 import { formatDistanceToNow } from 'date-fns';
 import { useToast } from '@/components/ui/use-toast';
 
-interface Email {
-  id: string;
-  subject: string;
-  sender: {
-    name: string;
-    email: string;
-  };
-  preview: string;
-  isRead: boolean;
-  isStarred: boolean;
-  labels: string[];
-  date: Date;
-}
+// Removed local Email interface, using the imported one from ../data/emails
 
 interface EmailListProps {
   view: string;
@@ -27,10 +15,31 @@ interface EmailListProps {
 
 const EmailList: React.FC<EmailListProps> = ({ view, onEmailClick }) => {
   const { toast } = useToast();
+  const [emails, setEmails] = useState<Email[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<Error | null>(null);
 
-  // Filter emails based on the current view
+  useEffect(() => {
+    const loadEmails = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const fetchedEmails = await fetchEmails();
+        setEmails(fetchedEmails);
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('Failed to fetch emails'));
+        console.error('Error fetching emails in EmailList:', err); // Log the actual error
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadEmails();
+  }, []); // Fetch emails only on component mount
+
+  // Filter emails based on the current view and emails state
   const getFilteredEmails = () => {
-    let filtered = [...emailData];
+    let filtered = [...emails]; // Use the emails state
     
     if (view === 'inbox') {
       return filtered;
@@ -38,26 +47,54 @@ const EmailList: React.FC<EmailListProps> = ({ view, onEmailClick }) => {
       const labelName = view.replace('label-', '');
       return filtered.filter(email => email.labels.includes(labelName));
     }
-    
+    // Add other potential views if necessary
+    // e.g., starred, unread - this filtering is client-side
+    // else if (view === 'starred') {
+    //   return filtered.filter(email => email.isStarred);
+    // }
     return filtered;
   };
 
   const toggleStar = (e: React.MouseEvent, emailId: string) => {
     e.stopPropagation();
+    // This is a UI-only toast. Actual starring would require updating state and possibly a backend call.
     toast({
       title: "Starred",
-      description: "Email marked as important",
+      description: "Email star status toggled (UI only)",
       duration: 2000,
     });
+    // Example of how to toggle star state locally:
+    // setEmails(currentEmails =>
+    //   currentEmails.map(email =>
+    //     email.id === emailId ? { ...email, isStarred: !email.isStarred } : email
+    //   )
+    // );
   };
 
   const filteredEmails = getFilteredEmails();
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 text-gray-500">
+        <p className="text-lg">Loading emails...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 text-red-500">
+        <p className="text-lg">Error loading emails.</p>
+        <p className="text-sm">{error.message}</p>
+      </div>
+    );
+  }
 
   if (filteredEmails.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-64 text-gray-500">
         <p className="text-lg">No emails to display</p>
-        <p className="text-sm">This folder is empty</p>
+        <p className="text-sm">{view === 'inbox' && emails.length > 0 ? 'No emails match your current filter.' : 'This folder is empty.'}</p>
       </div>
     );
   }
