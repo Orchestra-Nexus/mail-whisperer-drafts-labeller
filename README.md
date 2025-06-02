@@ -47,6 +47,51 @@ An interactive Gmail dashboard that categorizes emails using an AI agent (via MC
 - Changes to the backend may require a container restart (`docker compose restart backend`).
 - You can use a `.env` file for environment variables.
 
+## Features & Recent Changes
+
+### Scheduler System
+- **Scheduler Page**: New `/scheduler` page in the frontend for creating, pausing, and deleting scheduled tasks (email, cronjob, agent event).
+- **Backend API**: Endpoints for managing scheduler tasks (`/api/scheduler/tasks`, `/api/scheduler/task`, pause/delete). Currently uses in-memory store; DB persistence planned.
+- **AgentScheduler**: Backend logic for scheduling and (soon) executing tasks.
+
+### Audit Trail
+- **Audit Trail Page**: New `/audit` page in the frontend displays audit logs from the backend.
+- **Backend**: `/api/audit` endpoint returns audit logs from PostgreSQL.
+- **Audit Logging**: Actions like labeling emails are logged to the audit trail.
+
+### WebSocket Agent Chat
+- **Real-time Chat**: `/ws/agent` endpoint enables chat with the AI agent (Gemini/MCP integration) via WebSocket.
+- **Error Handling**: Improved error/traceback reporting to frontend.
+
+### Security & Secrets
+- **Environment Variables**: All secrets (e.g., `GEMINI_API_KEY`, DB credentials) are handled via `.env` and passed securely in Docker Compose.
+- **.gitignore**: Updated to ignore all sensitive files, build artifacts, and node_modules.
+
+### Branding & UI
+- **Branding**: All default branding removed. Gmail icon used for favicon/social preview.
+- **UI**: Modern, clean React/Vite frontend. Scheduler and Audit Trail pages added.
+
+## Usage
+
+- **Scheduler**: Go to `/scheduler` to manage scheduled tasks. (Currently demo; real execution and DB persistence coming soon.)
+- **Audit Trail**: Go to `/audit` to view recent audit logs (actions, labels, etc.).
+- **Agent Chat**: Use the chat interface (if present) to interact with the AI agent in real time.
+
+## Environment Variables
+- Place a `.env` file in the root with at least:
+  ```env
+  GEMINI_API_KEY=your_gemini_api_key
+  DATABASE_URL=postgresql://postgres:postgres@db:5432/mailwhisperer
+  ```
+- All services in Docker Compose will pick up these variables.
+
+## Roadmap / TODO
+- [ ] Persist scheduled tasks and audit logs in the database (not just in-memory)
+- [ ] Implement real execution of scheduled tasks (email, cron, agent event)
+- [ ] Add authentication for task management
+- [ ] Further UI/UX polish (sidebar navigation, filters, etc.)
+- [ ] Integrate more agent/tool logic (e.g., Google Docs, email checks)
+
 ## Next steps
 - [ ] Create FastAPI backend skeleton
 - [ ] Define PostgreSQL database model
