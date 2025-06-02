@@ -123,7 +123,3 @@ async def websocket_endpoint(websocket: WebSocket):
                     await websocket.send_text(result_text)
     except WebSocketDisconnect:
         pass
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("backend_main:app", host="0.0.0.0", port=8001, reload=True)
