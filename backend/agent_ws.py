@@ -10,7 +10,6 @@ import os
 import logging
 import warnings
 from google import genai
-from google.genai.types import GenerateContentConfig, HttpOptions
 from google.adk.agents import Agent
 from google.adk.models.lite_llm import LiteLlm # For multi-model support
 from mcp import ClientSession, StdioServerParameters
@@ -37,10 +36,10 @@ async def agent_websocket(websocket: WebSocket):
                     response = client.models.generate_content(
                         model="gemini-2.0-flash",
                         contents=[data],
-                        config=GenerateContentConfig(
-                            system_instruction=["You are a Gmail agent. Your task is to use the available tools."],
-                            tools=mcp_tools
-                        ),
+                        config={
+                            "system_instruction": ["You are a Gmail agent. Your task is to use the available tools."],
+                            "tools": mcp_tools
+                        },
                     )
                     # Antwort auswerten
                     result_text = ""
@@ -63,5 +62,7 @@ async def agent_websocket(websocket: WebSocket):
                         result_text = "Keine Antwort vom Agenten."
                     await websocket.send_text(result_text)
     except Exception as e:
-        await websocket.send_text(f"Agent error: {str(e)}")
+        import traceback
+        tb = traceback.format_exc()
+        await websocket.send_text(f"Agent error: {str(e)}\n{tb}")
         await websocket.close()

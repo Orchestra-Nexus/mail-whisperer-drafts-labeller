@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Auth keys and secrets
+/auth/
+.env
+venv/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,5 +27,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-*auth/*
-venv/*
+
+# Ignore frontend build artifacts
+frontend/dist
+frontend/node_modules

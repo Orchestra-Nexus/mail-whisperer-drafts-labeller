@@ -14,6 +14,10 @@ from backend.tools_wrapper import (
 )
 import asyncpg
 from backend.agent_ws import agent_websocket
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, APIRouter, HTTPException
+import uuid
+import datetime
+from backend.agent_scheduler import AgentScheduler
 
 # Logging configuration
 logging.basicConfig(level=logging.ERROR)
@@ -48,6 +52,20 @@ class AuditTrail(BaseModel):
     action: str
     user: str
     timestamp: str
+
+class SchedulerTask(BaseModel):
+    id: str
+    type: str
+    description: str
+    status: str = "active"
+    nextRun: Optional[str] = None
+    to: Optional[str] = None
+    subject: Optional[str] = None
+    body: Optional[str] = None
+    date: Optional[str] = None
+    interval: Optional[int] = None
+    condition: Optional[str] = None
+    actionDesc: Optional[str] = None
 
 # DB pool
 @app.on_event("startup")
@@ -88,3 +106,33 @@ async def get_audit():
 @app.websocket("/ws/agent")
 async def websocket_endpoint(websocket: WebSocket):
     await agent_websocket(websocket)
+
+scheduler = AgentScheduler()
+
+# In-memory task store for demo (replace with DB in production)
+scheduled_tasks: List[SchedulerTask] = []
+
+@app.get("/api/scheduler/tasks", response_model=List[SchedulerTask])
+async def get_scheduler_tasks():
+    return scheduled_tasks
+
+@app.post("/api/scheduler/task", response_model=SchedulerTask)
+async def create_scheduler_task(task: SchedulerTask):
+    task.id = str(uuid.uuid4())
+    scheduled_tasks.append(task)
+    # TODO: Start real scheduling logic with AgentScheduler
+    return task
+
+@app.post("/api/scheduler/task/{task_id}/pause")
+async def pause_scheduler_task(task_id: str):
+    for t in scheduled_tasks:
+        if t.id == task_id:
+            t.status = "paused" if t.status == "active" else "active"
+            return {"status": t.status}
+    raise HTTPException(status_code=404, detail="Task not found")
+
+@app.delete("/api/scheduler/task/{task_id}")
+async def delete_scheduler_task(task_id: str):
+    global scheduled_tasks
+    scheduled_tasks = [t for t in scheduled_tasks if t.id != task_id]
+    return {"ok": True}
