@@ -1,0 +1,8 @@
+# requirements.txt for FastAPI backend
+fastapi
+uvicorn[standard]
+asyncpg
+python-dotenv
+google-generativeai
+litellm
+mcp

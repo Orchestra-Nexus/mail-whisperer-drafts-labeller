@@ -1,3 +1,68 @@
+# Mail Whisperer Drafts Labeller – Gmail Dashboard
+
+## Ziel
+Ein interaktives Gmail Dashboard, das E-Mails mit Hilfe eines KI-Agents (über MCP-Server) kategorisiert, Vorschläge macht und mit einem FastAPI-Backend sowie PostgreSQL für Audit Trails arbeitet. Das Frontend wird regelmäßig aktualisiert und unterstützt einen Chat mit dem Agenten via Websockets.
+
+## Architektur
+- **Frontend**: React/Vite (bereits vorhanden)
+- **Backend**: FastAPI (wird ergänzt)
+- **Datenbank**: PostgreSQL (für Audit Trails)
+- **Agent-Kommunikation**: Websockets (Chat mit KI-Agent)
+- **MCP-Server**: Bereits laufend, Anbindung wie in `test.py`
+
+## Features (Soll-Zustand)
+- E-Mail-Übersicht, Detailansicht, Label-Management
+- Chat-Interface für Interaktion mit dem Agenten (Websocket)
+- Backend-API für E-Mail- und Audit-Trail-Handling
+- PostgreSQL für Audit Trails (z.B. wer hat was wann gelabelt)
+- Regelmäßige Aktualisierung des Frontends (Polling oder Websockets)
+- Authentifizierung (optional, später)
+
+## Was ist bereits vorhanden?
+- Frontend-Grundstruktur (React/Vite, siehe `src/`)
+- Beispiel-Agenten-Anbindung in `test.py`
+- MCP-Server läuft extern
+
+## Was muss gemacht werden?
+1. **Backend (FastAPI) aufsetzen**
+    - Endpunkte für E-Mail-Listen, Details, Label-Änderungen, Audit-Trails
+    - Websocket-Endpunkt für Chat mit Agenten
+    - Anbindung an MCP-Server (siehe `test.py`)
+    - Verbindung zu PostgreSQL (z.B. mit SQLAlchemy)
+2. **PostgreSQL einrichten**
+    - Datenbankmodell für Audit Trails
+    - Migrationen (z.B. mit Alembic)
+3. **Frontend erweitern**
+    - API-Integration für E-Mails, Labels, Audit-Trails
+    - Websocket-Integration für Chat
+    - UI für Audit-Trail-Anzeige
+    - Regelmäßige Aktualisierung (Polling/Websocket)
+4. **Deployment/Entwicklung**
+    - Docker Compose für Backend + DB (optional)
+    - .env-Konfiguration für Secrets
+
+## Beispiel: Backend FastAPI Struktur
+- `/api/emails` – Liste, Details, Label-Änderung
+- `/api/audit` – Audit-Trail-Logs
+- `/ws/agent` – Websocket für Chat
+
+## Nächste Schritte
+- [ ] FastAPI Backend Grundgerüst erstellen
+- [ ] PostgreSQL Datenbankmodell definieren
+- [ ] Websocket-Chat-Endpoint implementieren
+- [ ] Frontend-API- und Websocket-Anbindung
+- [ ] Audit Trail im Backend und Frontend anzeigen
+
+## Referenz
+- Siehe `test.py` für Agenten-Anbindung
+- MCP-Server muss laufen
+
+---
+
+**Fragen/Feedback willkommen!**
+
+---
+
 # Welcome to your Lovable project
 
 ## Project info
