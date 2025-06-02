@@ -1,65 +1,63 @@
 # Mail Whisperer Drafts Labeller – Gmail Dashboard
 
-## Ziel
-Ein interaktives Gmail Dashboard, das E-Mails mit Hilfe eines KI-Agents (über MCP-Server) kategorisiert, Vorschläge macht und mit einem FastAPI-Backend sowie PostgreSQL für Audit Trails arbeitet. Das Frontend wird regelmäßig aktualisiert und unterstützt einen Chat mit dem Agenten via Websockets.
+## Goal
+An interactive Gmail dashboard that categorizes emails using an AI agent (via MCP server), provides suggestions, and works with a FastAPI backend and PostgreSQL for audit trails. The frontend is regularly updated and supports chat with the agent via WebSockets.
 
-## Architektur
-- **Frontend**: React/Vite (bereits vorhanden)
-- **Backend**: FastAPI (wird ergänzt)
-- **Datenbank**: PostgreSQL (für Audit Trails)
-- **Agent-Kommunikation**: Websockets (Chat mit KI-Agent)
-- **MCP-Server**: Bereits laufend, Anbindung wie in `test.py`
+## Architecture
+- **Frontend**: React/Vite (already present)
+- **Backend**: FastAPI (Python)
+- **Database**: PostgreSQL (for audit trails)
+- **Agent Communication**: WebSockets (chat with AI agent)
+- **MCP Server**: Already running, integration as in `test.py`
+- **Docker Compose**: Orchestrates backend, database, and MCP server
 
-## Features (Soll-Zustand)
-- E-Mail-Übersicht, Detailansicht, Label-Management
-- Chat-Interface für Interaktion mit dem Agenten (Websocket)
-- Backend-API für E-Mail- und Audit-Trail-Handling
-- PostgreSQL für Audit Trails (z.B. wer hat was wann gelabelt)
-- Regelmäßige Aktualisierung des Frontends (Polling oder Websockets)
-- Authentifizierung (optional, später)
+## Quick Start with Docker Compose
 
-## Was ist bereits vorhanden?
-- Frontend-Grundstruktur (React/Vite, siehe `src/`)
-- Beispiel-Agenten-Anbindung in `test.py`
-- MCP-Server läuft extern
+1. **Requirements:**
+   - [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed
 
-## Was muss gemacht werden?
-1. **Backend (FastAPI) aufsetzen**
-    - Endpunkte für E-Mail-Listen, Details, Label-Änderungen, Audit-Trails
-    - Websocket-Endpunkt für Chat mit Agenten
-    - Anbindung an MCP-Server (siehe `test.py`)
-    - Verbindung zu PostgreSQL (z.B. mit SQLAlchemy)
-2. **PostgreSQL einrichten**
-    - Datenbankmodell für Audit Trails
-    - Migrationen (z.B. mit Alembic)
-3. **Frontend erweitern**
-    - API-Integration für E-Mails, Labels, Audit-Trails
-    - Websocket-Integration für Chat
-    - UI für Audit-Trail-Anzeige
-    - Regelmäßige Aktualisierung (Polling/Websocket)
-4. **Deployment/Entwicklung**
-    - Docker Compose für Backend + DB (optional)
-    - .env-Konfiguration für Secrets
+2. **Start the project:**
+   ```sh
+   docker compose up --build
+   ```
+   - The backend will be available at http://localhost:8000
+   - The database runs on port 5432
+   - The MCP server (gmail) runs as configured in the compose file
 
-## Beispiel: Backend FastAPI Struktur
-- `/api/emails` – Liste, Details, Label-Änderung
-- `/api/audit` – Audit-Trail-Logs
-- `/ws/agent` – Websocket für Chat
+3. **Start the frontend locally (optional):**
+   - Change to the `frontend/` directory and start the frontend as usual (e.g., with `npm run dev`).
 
-## Nächste Schritte
-- [ ] FastAPI Backend Grundgerüst erstellen
-- [ ] PostgreSQL Datenbankmodell definieren
-- [ ] Websocket-Chat-Endpoint implementieren
-- [ ] Frontend-API- und Websocket-Anbindung
-- [ ] Audit Trail im Backend und Frontend anzeigen
+4. **Database initialization:**
+   - The SQL script `db/db_init.sql` is executed automatically on first start.
 
-## Referenz
-- Siehe `test.py` für Agenten-Anbindung
-- MCP-Server muss laufen
+## Services in docker-compose.yml
+- **backend**: FastAPI app (Python, port 8000)
+- **db**: PostgreSQL database (port 5432)
+- **gmail**: MCP server for Gmail bridge
+
+## Example: Backend FastAPI structure
+- `/api/emails` – List, details, label change
+- `/api/audit` – Audit trail logs
+- `/ws/agent` – WebSocket for chat
+
+## Development
+- Changes to the backend may require a container restart (`docker compose restart backend`).
+- You can use a `.env` file for environment variables.
+
+## Next steps
+- [ ] Create FastAPI backend skeleton
+- [ ] Define PostgreSQL database model
+- [ ] Implement WebSocket chat endpoint
+- [ ] Connect frontend to API and WebSocket
+- [ ] Display audit trail in backend and frontend
+
+## Reference
+- See `test.py` for agent integration
+- MCP server must be running
 
 ---
 
-**Fragen/Feedback willkommen!**
+**Questions/Feedback welcome!**
 
 ---
 

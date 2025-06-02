@@ -1,4 +1,4 @@
-# Example SQL for initial database setup
+-- Example SQL for initial database setup
 
 CREATE TABLE emails (
     id SERIAL PRIMARY KEY,
