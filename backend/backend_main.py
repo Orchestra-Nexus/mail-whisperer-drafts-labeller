@@ -1,13 +1,27 @@
 # FastAPI backend for Mail Whisperer Drafts Labeller
 # Entry point: main.py
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
-import asyncio
+import json
+from dotenv import load_dotenv
 import os
+import logging
+from backend.tools_wrapper import (
+    list_emails, get_email, label_email, send_email, draft_email, read_email, search_emails, modify_email, delete_email, list_email_labels, create_label, update_label, delete_label, get_or_create_label, batch_modify_emails, batch_delete_emails
+)
 import asyncpg
+from backend.agent_ws import agent_websocket
+
+# Logging configuration
+logging.basicConfig(level=logging.ERROR)
+
+# Load environment variables
+load_dotenv()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/mailwhisperer")
 
 app = FastAPI()
 
@@ -19,8 +33,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/mailwhisperer")
 
 # Email/Audit models
 class Email(BaseModel):
@@ -75,51 +87,4 @@ async def get_audit():
 # WebSocket for agent chat (MCP integration)
 @app.websocket("/ws/agent")
 async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    try:
-        while True:
-            data = await websocket.receive_text()
-            # MCP-Agentenaufruf (wie in test.py)
-            import os
-            import json
-            from google import genai
-            from google.genai.types import GenerateContentConfig
-            from litellm import experimental_mcp_client
-            from mcp.client.sse import sse_client
-            from mcp import ClientSession
-            GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-            client = genai.Client(api_key=GEMINI_API_KEY)
-            async with sse_client("http://localhost:8000/mcp-server/sse/") as streams:
-                async with ClientSession(*streams) as session:
-                    await session.initialize()
-                    mcp_tools = await experimental_mcp_client.load_mcp_tools(session=session, format="mcp")
-                    response = client.models.generate_content(
-                        model="gemini-2.0-flash",
-                        contents=[data],
-                        config=GenerateContentConfig(
-                            system_instruction=["You are a Gmail agent. Your task is to use the available tools."],
-                            tools=mcp_tools
-                        ),
-                    )
-                    # Antwort auswerten
-                    result_text = ""
-                    if response.candidates and response.candidates[0].content.parts:
-                        for part in response.candidates[0].content.parts:
-                            if hasattr(part, 'function_call') and part.function_call is not None:
-                                function_call = part.function_call
-                                result = await session.call_tool(
-                                    function_call.name, arguments=dict(function_call.args)
-                                )
-                                try:
-                                    email_data = json.loads(result.content[0].text)
-                                    result_text = json.dumps(email_data)
-                                except Exception:
-                                    result_text = result.content[0].text
-                            else:
-                                if response.text:
-                                    result_text = response.text
-                    else:
-                        result_text = "Keine Antwort vom Agenten."
-                    await websocket.send_text(result_text)
-    except WebSocketDisconnect:
-        pass
+    await agent_websocket(websocket)

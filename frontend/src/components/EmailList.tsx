@@ -1,57 +1,31 @@
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Star, Tag } from 'lucide-react';
-import { fetchEmails, Email } from '@/data/emails'; // Import fetchEmails and Email interface
+import { Email } from '@/data/emails'; // Import Email interface
 import { formatDistanceToNow } from 'date-fns';
 import { useToast } from '@/components/ui/use-toast';
 
-// Removed local Email interface, using the imported one from ../data/emails
-
+// Accept emails, isLoading, error as props for controlled loading from parent
 interface EmailListProps {
   view: string;
   onEmailClick: (email: Email) => void;
+  emails: Email[];
+  isLoading: boolean;
+  error: Error | null;
 }
 
-const EmailList: React.FC<EmailListProps> = ({ view, onEmailClick }) => {
+const EmailList: React.FC<EmailListProps> = ({ view, onEmailClick, emails, isLoading, error }) => {
   const { toast } = useToast();
-  const [emails, setEmails] = useState<Email[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    const loadEmails = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const fetchedEmails = await fetchEmails();
-        setEmails(fetchedEmails);
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error('Failed to fetch emails'));
-        console.error('Error fetching emails in EmailList:', err); // Log the actual error
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadEmails();
-  }, []); // Fetch emails only on component mount
-
-  // Filter emails based on the current view and emails state
+  // Filter emails based on the current view and emails prop
   const getFilteredEmails = () => {
-    let filtered = [...emails]; // Use the emails state
-    
+    let filtered = [...emails];
     if (view === 'inbox') {
       return filtered;
     } else if (view.startsWith('label-')) {
       const labelName = view.replace('label-', '');
       return filtered.filter(email => email.labels.includes(labelName));
     }
-    // Add other potential views if necessary
-    // e.g., starred, unread - this filtering is client-side
-    // else if (view === 'starred') {
-    //   return filtered.filter(email => email.isStarred);
-    // }
     return filtered;
   };
 

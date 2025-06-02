@@ -11,6 +11,9 @@ An interactive Gmail dashboard that categorizes emails using an AI agent (via MC
 - **MCP Server**: Already running, integration as in `test.py`
 - **Docker Compose**: Orchestrates backend, database, and MCP server
 
+## Branding
+- **Favicon & Social Preview**: Uses a modern Gmail SVG icon for favicon and social previews (see `frontend/index.html`).
+
 ## Quick Start with Docker Compose
 
 1. **Requirements:**
@@ -59,78 +62,3 @@ An interactive Gmail dashboard that categorizes emails using an AI agent (via MC
 
 **Questions/Feedback welcome!**
 
----
-
-# Welcome to your Lovable project
-
-## Project info
-
-**URL**: https://lovable.dev/projects/f064033c-bce7-4a31-a8c7-35269f2a355d
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/f064033c-bce7-4a31-a8c7-35269f2a355d) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/f064033c-bce7-4a31-a8c7-35269f2a355d) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
