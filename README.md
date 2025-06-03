@@ -18,6 +18,8 @@ Ornex Office is a next-generation workspace platform that brings together email,
 
 Ornex Office is fully dockerized for easy development and production deployment, and is built to be extensible with more agent-powered tools and integrations coming soon.
 
+![grafik](https://github.com/user-attachments/assets/612ff652-0c0c-4851-ba8d-f0a962353ad2)
+
 ### Office Tools Overview
 - **Email (Gmail)**: Full-featured inbox, agent-powered automation, and chat-based actions.
 - **Sheets**: Data export, reporting, and spreadsheet automation.
