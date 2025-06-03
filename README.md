@@ -1,5 +1,9 @@
 # Ornex Mail – Gmail Dashboard
 
+<center>
+<img src="https://github.com/Orchestra-Nexus/ornex-mail/blob/main/ornex_logo_full.png?raw=true" width="150px"/>
+</center>
+
 ## Goal
 An interactive Gmail dashboard that categorizes emails using an AI agent (via MCP server), provides suggestions, and works with a FastAPI backend and PostgreSQL for audit trails. The frontend is regularly updated and supports chat with the agent via WebSockets.
 
