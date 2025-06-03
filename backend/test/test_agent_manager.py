@@ -61,7 +61,7 @@ async def test_agent_with_manager():
                 else:
                     result_text = "Keine Antwort vom Agenten."
                 print("[TestManager] Antwort:", result_text)
-                manager.send_personal_message(session_id, {"message": result_text})
+                # Optional: manager.send_personal_message(session_id, {"message": result_text})
     except Exception as e:
         import traceback
         tb = traceback.format_exc()

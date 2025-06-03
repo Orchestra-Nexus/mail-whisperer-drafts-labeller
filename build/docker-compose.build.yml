@@ -1,9 +1,10 @@
 version: "3.9"
 services:
   backend:
-    image: mw-backend:dev
+    build:
+      context: ..
+      dockerfile: build/Dockerfile.backend
     container_name: mw-backend
-    command: uvicorn backend/agent_ws:app --host 0.0.0.0 --port 8001 --reload
     ports:
       - "8001:8001"
     environment:
@@ -24,7 +25,7 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./db/db_init.sql:/docker-entrypoint-initdb.d/db_init.sql
+      - ../db/db_init.sql:/docker-entrypoint-initdb.d/db_init.sql
 
   gmail:
     image: orchestranexus/gmail-mcp:v0.0.0
@@ -35,19 +36,20 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./mcp/scripts:/scripts
-      - ./mcp/scripts/gmail_auth.py:/root/gmail_auth.py
-      - ./mcp/config:/config
-      - ./auth/gcp-oauth.keys.json:/root/.gmail-mcp/gcp-oauth.keys.json
+      - ../mcp/scripts:/scripts
+      - ../mcp/scripts/gmail_auth.py:/root/gmail_auth.py
+      - ../mcp/config:/config
+      - ../auth/gcp-oauth.keys.json:/root/.gmail-mcp/gcp-oauth.keys.json
     environment:
       MCP_BRIDGE__CONFIG__FILE: /config/bridge_config.json
 
   frontend:
-    image: mw-frontend:dev
+    build:
+      context: ..
+      dockerfile: build/Dockerfile.frontend
     container_name: mw-frontend
-    command: npm run dev
     ports:
-      - "5173:5173"
+      - "5173:80"
     depends_on:
       - db
       - backend

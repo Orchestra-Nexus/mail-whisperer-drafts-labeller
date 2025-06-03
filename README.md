@@ -85,6 +85,37 @@ An interactive Gmail dashboard that categorizes emails using an AI agent (via MC
   ```
 - All services in Docker Compose will pick up these variables.
 
+## Entwicklungs- und Build-Setup
+
+### Build-Images und Produktion
+
+Die Build- und Dockerfiles befinden sich im Ordner `build/`.
+
+- Zum Bauen der Images und Starten der Container für Produktion oder Build-Tests:
+
+  ```bash
+  docker compose -f build/docker-compose.build.yml build
+  docker compose -f build/docker-compose.build.yml up
+  ```
+
+### Entwicklung (Hot-Reload, lokale Quellcodes)
+
+Für die lokale Entwicklung werden vorbereitete Images verwendet und die eigentlichen Entwicklungsserver (z.B. Vite, Uvicorn) laufen außerhalb von Docker oder in eigenen Dev-Images.
+
+- Starte die Entwicklungsumgebung mit:
+
+  ```bash
+  docker compose -f docker-compose.dev.yml up
+  ```
+
+- Passe ggf. die Umgebungsvariablen in einer `.env`-Datei an.
+
+### Hinweise
+
+- Die alten Dockerfiles und Compose-Dateien wurden in den `build/`-Ordner verschoben.
+- Für lokale Entwicklung empfiehlt sich, das Frontend direkt mit `npm run dev` und das Backend mit `uvicorn` zu starten, um Hot-Reload zu nutzen.
+- Die Datenbank bleibt persistent im Volume `db_data`.
+
 ## Roadmap / TODO
 - [ ] Persist scheduled tasks and audit logs in the database (not just in-memory)
 - [ ] Implement real execution of scheduled tasks (email, cron, agent event)

@@ -7,6 +7,8 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import SchedulerPage from "./Scheduler";
 import AuditTrailPage from "./pages/AuditTrail";
+import MainMenu from "./components/MainMenu";
+import LandingPage from "./pages/LandingPage";
 
 const queryClient = new QueryClient();
 
@@ -16,8 +18,10 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <MainMenu />
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/inbox" element={<Index />} />
           <Route path="/scheduler" element={<SchedulerPage />} />
           <Route path="/audit" element={<AuditTrailPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
