@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   backend:
-    image: mw-backend:dev
+    image: orchestranexus/agentbox:TAG
     container_name: mw-backend
     command: uvicorn backend/agent_ws:app --host 0.0.0.0 --port 8001 --reload
     ports:

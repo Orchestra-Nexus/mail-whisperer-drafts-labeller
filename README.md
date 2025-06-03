@@ -116,23 +116,104 @@ Für die lokale Entwicklung werden vorbereitete Images verwendet und die eigentl
 - Für lokale Entwicklung empfiehlt sich, das Frontend direkt mit `npm run dev` und das Backend mit `uvicorn` zu starten, um Hot-Reload zu nutzen.
 - Die Datenbank bleibt persistent im Volume `db_data`.
 
+## Backend-Image bauen und pushen
+
+Um das Backend-Image zu bauen und in die Registry zu pushen, führe aus:
+
+```bash
+# Einmalig anmelden (nur nötig, wenn du noch nicht eingeloggt bist)
+docker login
+
+# Image bauen und pushen (TAG ersetzen, z.B. "latest" oder "v1")
+./build_and_push_backend.sh <TAG>
+```
+
+Das Image wird als `orchestranexus/agentbox:<TAG>` gebaut und gepusht.
+
+Passe anschließend in deiner `docker-compose.yml` den Backend-Service an:
+
+```yaml
+backend:
+  image: orchestranexus/agentbox:<TAG>
+  ...
+```
+
+Danach kannst du wie gewohnt mit Compose starten:
+
+```bash
+docker compose up
+```
+
 ## Roadmap / TODO
-- [ ] Persist scheduled tasks and audit logs in the database (not just in-memory)
-- [ ] Implement real execution of scheduled tasks (email, cron, agent event)
-- [ ] Add authentication for task management
-- [ ] Further UI/UX polish (sidebar navigation, filters, etc.)
-- [ ] Integrate more agent/tool logic (e.g., Google Docs, email checks)
+- [x] Persist scheduled tasks and audit logs in the database (PostgreSQL instead of in-memory)
+- [x] Implement real execution of scheduled tasks (email, cron, agent event)
+- [x] Add authentication for task management (basic auth present, more planned)
+- [x] UI/UX polish: sidebar navigation, filters, modern components
+- [x] Integrate more agent/tool logic (Google Docs, email checks, Gemini/MCP)
+- [x] FastAPI backend skeleton created
+- [x] PostgreSQL database model defined
+- [x] WebSocket chat endpoint implemented
+- [x] Frontend connected to API and WebSocket
+- [x] Audit trail is shown in backend and frontend
+- [x] Build and dev workflows separated with Docker Compose
+- [x] Automated backend image build & push to Docker Hub
+- [ ] Advanced authentication (OAuth, SSO, etc.)
+- [ ] Scheduler: advanced timing, recurrence, error handling
+- [ ] More integrations (e.g. Google Calendar, Slack)
+- [ ] Improved test coverage (unit/integration)
+- [ ] Deployment documentation for cloud environments
 
 ## Next steps
-- [ ] Create FastAPI backend skeleton
-- [ ] Define PostgreSQL database model
-- [ ] Implement WebSocket chat endpoint
-- [ ] Connect frontend to API and WebSocket
-- [ ] Display audit trail in backend and frontend
+- [ ] Advanced authentication (OAuth, SSO, etc.)
+- [ ] Expand scheduler features
+- [ ] More integrations (e.g. Google Calendar, Slack)
+- [ ] Increase test coverage
+- [ ] Automate cloud deployment
 
-## Reference
-- See `test.py` for agent integration
-- MCP server must be running
+## Achieved milestones
+- FastAPI backend with WebSocket and REST API
+- PostgreSQL database for audit trail and scheduler
+- Modern React/Vite frontend with scheduler and audit trail pages
+- Agent integration (Gemini/MCP) with WebSocket chat
+- Docker Compose for development and production
+- Automated image build & push to Docker Hub
+
+## File Structure
+
+```
+mail-whisperer-drafts-labeller/
+├── backend/                # FastAPI backend (Python)
+│   ├── agent_ws.py         # Main agent logic
+│   ├── agent_scheduler.py  # Scheduler logic
+│   ├── ws_manager.py       # WebSocket manager
+│   ├── tools_wrapper.py    # Tool integration
+│   ├── backend_main.py     # (Entry point, if used)
+│   └── test/               # Backend tests
+│       ├── test_agent_manager.py
+│       └── test_mcp_tools.py
+├── frontend/               # React/Vite frontend (TypeScript)
+│   ├── src/                # Main source code
+│   │   ├── components/     # UI components
+│   │   ├── pages/          # App pages (Scheduler, AuditTrail, etc.)
+│   │   └── ...             # Other frontend code
+│   ├── public/             # Static assets
+│   └── ...                 # Configs, package.json, etc.
+├── db/                     # Database initialization
+│   └── db_init.sql
+├── mcp/                    # MCP server scripts and config
+│   ├── config/
+│   └── scripts/
+├── build/                  # Docker build files
+│   ├── Dockerfile.backend
+│   ├── Dockerfile.frontend
+│   └── docker-compose.build.yml
+├── docker-compose.yml      # Main compose file (uses pushed images)
+├── docker-compose.dev.yml  # Dev compose file (for local dev servers)
+├── build_and_push_backend.sh # Script to build & push backend image
+├── requirements.txt        # Python dependencies
+├── README.md
+└── ...
+```
 
 ---
 
