@@ -1,4 +1,4 @@
-# Mail Whisperer Drafts Labeller – Gmail Dashboard
+# Ornex Mail – Gmail Dashboard
 
 ## Goal
 An interactive Gmail dashboard that categorizes emails using an AI agent (via MCP server), provides suggestions, and works with a FastAPI backend and PostgreSQL for audit trails. The frontend is regularly updated and supports chat with the agent via WebSockets.

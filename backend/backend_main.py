@@ -1,4 +1,4 @@
-# FastAPI backend for Mail Whisperer Drafts Labeller
+# FastAPI backend for Ornex Mail
 # Entry point: main.py
 
 from fastapi import FastAPI, WebSocket

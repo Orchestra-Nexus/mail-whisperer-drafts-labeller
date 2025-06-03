@@ -7,7 +7,7 @@ import ComposeEmail from '@/components/ComposeEmail';
 import ChatWindow from '@/components/ChatWindow';
 import { fetchEmails, Email } from '@/data/emails';
 
-const Index = () => {
+const InboxPage = () => {
   const [activeView, setActiveView] = useState('inbox');
   const [selectedEmail, setSelectedEmail] = useState<any>(null);
   const [isComposing, setIsComposing] = useState(false);
@@ -93,4 +93,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default InboxPage;
