@@ -18,8 +18,50 @@ Ornex Office is a next-generation workspace platform that brings together email,
 
 Ornex Office is fully dockerized for easy development and production deployment, and is built to be extensible with more agent-powered tools and integrations coming soon.
 
+### Office Tools Overview
+- **Email (Gmail)**: Full-featured inbox, agent-powered automation, and chat-based actions.
+- **Sheets**: Data export, reporting, and spreadsheet automation.
+- **Calendar**: Event scheduling, reminders, and agent-managed bookings.
+- **Drive**: File storage, document processing, and workflow integration.
+- **Writer**: AI-powered document and email composition, with export to Sheets, PDF, or email.
+- **Processing**: Document upload, validation, agent review, and multi-step automation.
+- **Tasks**: Assign, track, and automate tasks across all connected tools.
+- **Audit Trails**: Track every action for transparency and compliance.
 
-## Features & Recent Changes
+
+
+### How Connectors Work
+- **In the Chat**: You can ask agents to perform actions like "Send this as an email", "Save to Google Sheets", or "Schedule a meeting". The chat interface routes these requests to the appropriate connector.
+- **In Workflows**: Visual workflow builder lets you chain together actions across connectors (e.g., process a PDF, validate, save to Drive, notify via email).
+- **In Tasks**: Assign tasks to agents that involve one or more connectors, such as "Summarize this document and email it to my team" or "Extract data from PDF and update my spreadsheet".
+
+Ornex Office is designed to be extensible—more connectors and tools (e.g., Slack, Google Docs) can be added to further automate your workflows.
+
+
+### Tasks & Workflows
+- **Tasks Page**: Manage and track tasks assigned to agents or users. (Planned: advanced task states, assignment, and notifications.)
+- **Workflow Automation**: Visual workflow builder lets you create, connect, and orchestrate multi-step automations (e.g., validation, agent processing, export to Drive/Sheets).
+- **Drag & Drop**: Build workflows by dragging nodes (validation, agent, save, etc.) and connecting them visually.
+- **Agent Orchestration**: Combine multiple agents and tools in a single workflow for complex document or email processing.
+- **Integration**: Workflows can interact with email, Drive, Sheets, and more—enabling end-to-end automation.
+
+### Document Processing & Workflow Builder
+A new, modern Document Processing page lets users upload or select a document and visually build custom workflows. The main area features a workflow builder (visual builder, ready for react-flow or similar) with draggable node types:
+- **Human/Agent Validation**: Add manual or agent-based review steps.
+- **Agent Processing**: Let agents analyze, extract, or summarize documents.
+- **Advanced Processing**: Placeholder for future advanced logic or integrations.
+- **Start Agent Task**: Trigger agent-powered automations as part of the workflow.
+- **Save to Drive**: Store processed documents directly in Google Drive.
+- **Save to Sheets**: Export extracted or processed data to Google Sheets.
+
+This enables end-to-end automation for document-centric workflows, combining validation, agent intelligence, and seamless integration with your office tools.
+
+
+# Architecture 
+## Connectors & Office Tools
+
+Ornex Office integrates multiple office tools and services through agent-powered connectors (MCP servers). These connectors allow you to automate, orchestrate, and interact with your favorite productivity tools directly from the chat, workflows, and task pages:
+
 
 ### Scheduler System
 - **Scheduler Page**: New `/scheduler` page in the frontend for creating, pausing, and deleting scheduled tasks (email, cronjob, agent event).
@@ -43,72 +85,12 @@ Ornex Office is fully dockerized for easy development and production deployment,
 - **Branding**: All default branding removed. Gmail icon used for favicon/social preview.
 - **UI**: Modern, clean React/Vite frontend. Scheduler and Audit Trail pages added.
 
-### Tasks & Workflows
-- **Tasks Page**: Manage and track tasks assigned to agents or users. (Planned: advanced task states, assignment, and notifications.)
-- **Workflow Automation**: Visual workflow builder lets you create, connect, and orchestrate multi-step automations (e.g., validation, agent processing, export to Drive/Sheets).
-- **Drag & Drop**: Build workflows by dragging nodes (validation, agent, save, etc.) and connecting them visually.
-- **Agent Orchestration**: Combine multiple agents and tools in a single workflow for complex document or email processing.
-- **Integration**: Workflows can interact with email, Drive, Sheets, and more—enabling end-to-end automation.
-
-### Document Processing & Workflow Builder
-A new, modern Document Processing page lets users upload or select a document and visually build custom workflows. The main area features a workflow builder (visual builder, ready for react-flow or similar) with draggable node types:
-- **Human/Agent Validation**: Add manual or agent-based review steps.
-- **Agent Processing**: Let agents analyze, extract, or summarize documents.
-- **Advanced Processing**: Placeholder for future advanced logic or integrations.
-- **Start Agent Task**: Trigger agent-powered automations as part of the workflow.
-- **Save to Drive**: Store processed documents directly in Google Drive.
-- **Save to Sheets**: Export extracted or processed data to Google Sheets.
-
-This enables end-to-end automation for document-centric workflows, combining validation, agent intelligence, and seamless integration with your office tools.
-
-## Connectors & Office Tools
-
-Ornex Office integrates multiple office tools and services through agent-powered connectors (MCP servers). These connectors allow you to automate, orchestrate, and interact with your favorite productivity tools directly from the chat, workflows, and task pages:
-
-### Available Connectors (MCP Servers)
-- **Gmail Connector**: Automate email categorization, labeling, sending, and management. Agents can read, draft, and organize emails for you.
-- **Google Sheets Connector**: Export data, generate reports, and automate spreadsheet workflows. Agents can write to, read from, and process Sheets as part of document or workflow automations.
-- **Google Calendar Connector**: Schedule meetings, sync events, and let agents manage your calendar. Bookings and reminders can be automated via chat or workflows.
-- **Google Drive Connector**: Upload, organize, and process files. Agents can save documents, fetch attachments, and automate file workflows (e.g., PDF processing, archiving).
-
-### How Connectors Work
-- **In the Chat**: You can ask agents to perform actions like "Send this as an email", "Save to Google Sheets", or "Schedule a meeting". The chat interface routes these requests to the appropriate connector.
-- **In Workflows**: Visual workflow builder lets you chain together actions across connectors (e.g., process a PDF, validate, save to Drive, notify via email).
-- **In Tasks**: Assign tasks to agents that involve one or more connectors, such as "Summarize this document and email it to my team" or "Extract data from PDF and update my spreadsheet".
-
-### Office Tools Overview
-- **Email (Gmail)**: Full-featured inbox, agent-powered automation, and chat-based actions.
-- **Sheets**: Data export, reporting, and spreadsheet automation.
-- **Calendar**: Event scheduling, reminders, and agent-managed bookings.
-- **Drive**: File storage, document processing, and workflow integration.
-- **Writer**: AI-powered document and email composition, with export to Sheets, PDF, or email.
-- **Processing**: Document upload, validation, agent review, and multi-step automation.
-- **Tasks**: Assign, track, and automate tasks across all connected tools.
-- **Audit Trails**: Track every action for transparency and compliance.
-
-Ornex Office is designed to be extensible—more connectors and tools (e.g., Slack, Google Docs) can be added to further automate your workflows.
-
 ## Usage
 
 - **Scheduler**: Go to `/scheduler` to manage scheduled tasks. (Currently demo; real execution and DB persistence coming soon.)
 - **Audit Trail**: Go to `/audit` to view recent audit logs (actions, labels, etc.).
 - **Agent Chat**: Use the chat interface (if present) to interact with the AI agent in real time.
 
-## Planned & Upcoming Features
-
-Ornex Office evolves from a Gmail dashboard to a full-featured agent workspace for modern office automation. The following features are planned or in development:
-
-- **Animated Landing Page**: Modern, animated landing page with feature carousel, SVG backgrounds, and progress bar.
-- **Multi-Agent Workspace**: Unified dashboard for email, document writing, task management, scheduling, and file workflows.
-- **AI Writing Assistant**: Compose, summarize, and rewrite documents or emails with AI support. Export to Google Sheets, PDF, or email draft.
-- **Document Processing**: Upload/select documents, build custom workflows (validation, agent processing, save to Drive/Sheets, etc.).
-- **Inbox & Email Automation**: Categorize, label, and automate emails with agent support. Real-time chat with agents.
-- **Task & Workflow Automation**: Visual workflow builder for multi-step automations (drag, connect, orchestrate agents and tools).
-- **Calendar Integration**: Book meetings, sync events, and let agents manage your schedule.
-- **Drive Integration**: Agents can access, organize, and process files in your Drive for seamless document workflows.
-- **Audit Trails**: Full transparency for all agent and user actions, with secure logging and review.
-- **About Us & Branding**: Consistent Ornex Office branding, modern navigation, and responsive UI/UX.
-- **Extensible Integrations**: More tools and agent-powered features coming soon (e.g., Slack, Google Docs, advanced scheduling).
 
 ## Roadmap / TODO
 - [x] Modern animated landing page with carousel and SVG backgrounds
