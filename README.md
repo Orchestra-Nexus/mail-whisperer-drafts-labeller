@@ -5,7 +5,7 @@
 # Ornex Office – Modern Agent Workspace
 
 ## Overview
-Ornex Office is a next-generation workspace platform that brings together email, document writing, task management, scheduling, and file automation—all powered by intelligent agents. Designed for modern teams and professionals, Ornex Office enables you to:
+Ornex Office is a next-generation workspace platform that unifies email, document writing, task management, scheduling, and file automation—all powered by intelligent agents. Designed for modern teams and professionals, Ornex Office enables you to:
 
 - Automate email categorization, labeling, and processing with AI agents.
 - Write, summarize, and rewrite documents or emails using an AI-powered writing assistant.
@@ -18,81 +18,91 @@ Ornex Office is a next-generation workspace platform that brings together email,
 
 Ornex Office is fully dockerized for easy development and production deployment, and is built to be extensible with more agent-powered tools and integrations coming soon.
 
-![grafik](https://github.com/user-attachments/assets/612ff652-0c0c-4851-ba8d-f0a962353ad2)
+![screenshot](https://github.com/user-attachments/assets/612ff652-0c0c-4851-ba8d-f0a962353ad2)
 
 ### Office Tools Overview
-- **Email (Gmail)**: Full-featured inbox, agent-powered automation, and chat-based actions.
-- **Sheets**: Data export, reporting, and spreadsheet automation.
-- **Calendar**: Event scheduling, reminders, and agent-managed bookings.
-- **Drive**: File storage, document processing, and workflow integration.
-- **Writer**: AI-powered document and email composition, with export to Sheets, PDF, or email.
-- **Processing**: Document upload, validation, agent review, and multi-step automation.
-- **Tasks**: Assign, track, and automate tasks across all connected tools.
-- **Audit Trails**: Track every action for transparency and compliance.
-
-
+- **Email (Gmail):** Full-featured inbox, agent-powered automation, and chat-based actions.
+- **Sheets:** Data export, reporting, and spreadsheet automation.
+- **Calendar:** Event scheduling, reminders, and agent-managed bookings.
+- **Drive:** File storage, document processing, and workflow integration.
+- **Writer:** AI-powered document and email composition, with export to Sheets, PDF, or email.
+- **Processing:** Document upload, validation, agent review, and multi-step automation.
+- **Tasks:** Assign, track, and automate tasks across all connected tools.
+- **Audit Trails:** Track every action for transparency and compliance.
 
 ### How Connectors Work
-- **In the Chat**: You can ask agents to perform actions like "Send this as an email", "Save to Google Sheets", or "Schedule a meeting". The chat interface routes these requests to the appropriate connector.
-- **In Workflows**: Visual workflow builder lets you chain together actions across connectors (e.g., process a PDF, validate, save to Drive, notify via email).
-- **In Tasks**: Assign tasks to agents that involve one or more connectors, such as "Summarize this document and email it to my team" or "Extract data from PDF and update my spreadsheet".
+- **In the Chat:** You can ask agents to perform actions like "Send this as an email", "Save to Google Sheets", or "Schedule a meeting". The chat interface routes these requests to the appropriate connector.
+- **In Workflows:** The visual workflow builder lets you chain together actions across connectors (e.g., process a PDF, validate, save to Drive, notify via email).
+- **In Tasks:** Assign tasks to agents that involve one or more connectors, such as "Summarize this document and email it to my team" or "Extract data from PDF and update my spreadsheet".
 
 Ornex Office is designed to be extensible—more connectors and tools (e.g., Slack, Google Docs) can be added to further automate your workflows.
 
-
 ### Tasks & Workflows
-- **Tasks Page**: Manage and track tasks assigned to agents or users. (Planned: advanced task states, assignment, and notifications.)
-- **Workflow Automation**: Visual workflow builder lets you create, connect, and orchestrate multi-step automations (e.g., validation, agent processing, export to Drive/Sheets).
-- **Drag & Drop**: Build workflows by dragging nodes (validation, agent, save, etc.) and connecting them visually.
-- **Agent Orchestration**: Combine multiple agents and tools in a single workflow for complex document or email processing.
-- **Integration**: Workflows can interact with email, Drive, Sheets, and more—enabling end-to-end automation.
+- **Tasks Page:** Manage and track tasks assigned to agents or users. (Planned: advanced task states, assignment, and notifications.)
+- **Workflow Automation:** Visual workflow builder lets you create, connect, and orchestrate multi-step automations (e.g., validation, agent processing, export to Drive/Sheets).
+- **Drag & Drop:** Build workflows by dragging nodes (validation, agent, save, etc.) and connecting them visually.
+- **Agent Orchestration:** Combine multiple agents and tools in a single workflow for complex document or email processing.
+- **Integration:** Workflows can interact with email, Drive, Sheets, and more—enabling end-to-end automation.
 
 ### Document Processing & Workflow Builder
 A new, modern Document Processing page lets users upload or select a document and visually build custom workflows. The main area features a workflow builder (visual builder, ready for react-flow or similar) with draggable node types:
-- **Human/Agent Validation**: Add manual or agent-based review steps.
-- **Agent Processing**: Let agents analyze, extract, or summarize documents.
-- **Advanced Processing**: Placeholder for future advanced logic or integrations.
-- **Start Agent Task**: Trigger agent-powered automations as part of the workflow.
-- **Save to Drive**: Store processed documents directly in Google Drive.
-- **Save to Sheets**: Export extracted or processed data to Google Sheets.
+- **Human/Agent Validation:** Add manual or agent-based review steps.
+- **Agent Processing:** Let agents analyze, extract, or summarize documents.
+- **Advanced Processing:** Placeholder for future advanced logic or integrations.
+- **Start Agent Task:** Trigger agent-powered automations as part of the workflow.
+- **Save to Drive:** Store processed documents directly in Google Drive.
+- **Save to Sheets:** Export extracted or processed data to Google Sheets.
 
 This enables end-to-end automation for document-centric workflows, combining validation, agent intelligence, and seamless integration with your office tools.
 
-
-# Architecture 
+# Architecture
 ## Connectors & Office Tools
 
 Ornex Office integrates multiple office tools and services through agent-powered connectors (MCP servers). These connectors allow you to automate, orchestrate, and interact with your favorite productivity tools directly from the chat, workflows, and task pages:
 
-
 ### Scheduler System
-- **Scheduler Page**: New `/scheduler` page in the frontend for creating, pausing, and deleting scheduled tasks (email, cronjob, agent event).
-- **Backend API**: Endpoints for managing scheduler tasks (`/api/scheduler/tasks`, `/api/scheduler/task`, pause/delete). Currently uses in-memory store; DB persistence planned.
-- **AgentScheduler**: Backend logic for scheduling and (soon) executing tasks.
+- **Scheduler Page:** New `/scheduler` page in the frontend for creating, pausing, and deleting scheduled tasks (email, cronjob, agent event).
+- **Backend API:** Endpoints for managing scheduler tasks (`/api/scheduler/tasks`, `/api/scheduler/task`, pause/delete). Currently uses in-memory store; DB persistence planned.
+- **AgentScheduler:** Backend logic for scheduling and (soon) executing tasks.
 
 ### Audit Trail
-- **Audit Trail Page**: New `/audit` page in the frontend displays audit logs from the backend.
-- **Backend**: `/api/audit` endpoint returns audit logs from PostgreSQL.
-- **Audit Logging**: Actions like labeling emails are logged to the audit trail.
+- **Audit Trail Page:** New `/audit` page in the frontend displays audit logs from the backend.
+- **Backend:** `/api/audit` endpoint returns audit logs from PostgreSQL.
+- **Audit Logging:** Actions like labeling emails are logged to the audit trail.
 
 ### WebSocket Agent Chat
-- **Real-time Chat**: `/ws/agent` endpoint enables chat with the AI agent (Gemini/MCP integration) via WebSocket.
-- **Error Handling**: Improved error/traceback reporting to frontend.
+- **Real-time Chat:** `/ws/agent` endpoint enables chat with the AI agent (Gemini/MCP integration) via WebSocket.
+- **Error Handling:** Improved error/traceback reporting to frontend.
 
 ### Security & Secrets
-- **Environment Variables**: All secrets (e.g., `GEMINI_API_KEY`, DB credentials) are handled via `.env` and passed securely in Docker Compose.
-- **.gitignore**: Updated to ignore all sensitive files, build artifacts, and node_modules.
+- **Environment Variables:** All secrets (e.g., `GEMINI_API_KEY`, DB credentials) are handled via `.env` and passed securely in Docker Compose.
+- **.gitignore:** Updated to ignore all sensitive files, build artifacts, and node_modules.
 
 ### Branding & UI
-- **Branding**: All default branding removed. Gmail icon used for favicon/social preview.
-- **UI**: Modern, clean React/Vite frontend. Scheduler and Audit Trail pages added.
+- **Branding:** All default branding removed. Gmail icon used for favicon/social preview.
+- **UI:** Modern, clean React/Vite frontend. Scheduler and Audit Trail pages added.
 
 ## Usage
 
-- **Scheduler**: Go to `/scheduler` to manage scheduled tasks. (Currently demo; real execution and DB persistence coming soon.)
-- **Audit Trail**: Go to `/audit` to view recent audit logs (actions, labels, etc.).
-- **Agent Chat**: Use the chat interface (if present) to interact with the AI agent in real time.
+- **Scheduler:** Go to `/scheduler` to manage scheduled tasks. (Currently demo; real execution and DB persistence coming soon.)
+- **Audit Trail:** Go to `/audit` to view recent audit logs (actions, labels, etc.).
+- **Agent Chat:** Use the chat interface (if present) to interact with the AI agent in real time.
 
+## Planned & Upcoming Features
+
+Ornex Office evolves from a Gmail dashboard to a full-featured agent workspace for modern office automation. The following features are planned or in development:
+
+- **Animated Landing Page:** Modern, animated landing page with feature carousel, SVG backgrounds, and progress bar.
+- **Multi-Agent Workspace:** Unified dashboard for email, document writing, task management, scheduling, and file workflows.
+- **AI Writing Assistant:** Compose, summarize, and rewrite documents or emails with AI support. Export to Google Sheets, PDF, or email draft.
+- **Document Processing:** Upload/select documents, build custom workflows (validation, agent processing, save to Drive/Sheets, etc.).
+- **Inbox & Email Automation:** Categorize, label, and automate emails with agent support. Real-time chat with agents.
+- **Task & Workflow Automation:** Visual workflow builder for multi-step automations (drag, connect, orchestrate agents and tools).
+- **Calendar Integration:** Book meetings, sync events, and let agents manage your schedule.
+- **Drive Integration:** Agents can access, organize, and process files in your Drive for seamless document workflows.
+- **Audit Trails:** Full transparency for all agent and user actions, with secure logging and review.
+- **About Us & Branding:** Consistent Ornex Office branding, modern navigation, and responsive UI/UX.
+- **Extensible Integrations:** More tools and agent-powered features coming soon (e.g., Slack, Google Docs, advanced scheduling).
 
 ## Roadmap / TODO
 - [x] Modern animated landing page with carousel and SVG backgrounds
@@ -131,12 +141,12 @@ Ornex Office integrates multiple office tools and services through agent-powered
 # Technical Setup & Architecture
 
 ## Architecture
-- **Frontend**: React/Vite (already present)
-- **Backend**: FastAPI (Python)
-- **Database**: PostgreSQL (for audit trails)
-- **Agent Communication**: WebSockets (chat with AI agent)
-- **MCP Server**: Already running, integration as in `test.py`
-- **Docker Compose**: Orchestrates backend, database, and MCP server
+- **Frontend:** React/Vite (already present)
+- **Backend:** FastAPI (Python)
+- **Database:** PostgreSQL (for audit trails)
+- **Agent Communication:** WebSockets (chat with AI agent)
+- **MCP Server:** Already running, integration as in `test.py`
+- **Docker Compose:** Orchestrates backend, database, and MCP server
 
 ## Quick Start with Docker Compose
 
@@ -158,9 +168,9 @@ Ornex Office integrates multiple office tools and services through agent-powered
    - The SQL script `db/db_init.sql` is executed automatically on first start.
 
 ## Services in docker-compose.yml
-- **backend**: FastAPI app (Python, port 8000)
-- **db**: PostgreSQL database (port 5432)
-- **gmail**: MCP server for Gmail bridge
+- **backend:** FastAPI app (Python, port 8000)
+- **db:** PostgreSQL database (port 5432)
+- **gmail:** MCP server for Gmail bridge
 
 ## Example: Backend FastAPI structure
 - `/api/emails` – List, details, label change
@@ -179,52 +189,52 @@ Ornex Office integrates multiple office tools and services through agent-powered
   ```
 - All services in Docker Compose will pick up these variables.
 
-## Entwicklungs- und Build-Setup
+## Build and Development Setup
 
-### Build-Images und Produktion
+### Build Images and Production
 
-Die Build- und Dockerfiles befinden sich im Ordner `build/`.
+The build and Dockerfiles are located in the `build/` folder.
 
-- Zum Bauen der Images und Starten der Container für Produktion oder Build-Tests:
+- To build the images and start the containers for production or build tests:
 
   ```bash
   docker compose -f build/docker-compose.build.yml build
   docker compose -f build/docker-compose.build.yml up
   ```
 
-### Entwicklung (Hot-Reload, lokale Quellcodes)
+### Development (Hot-Reload, Local Source Code)
 
-Für die lokale Entwicklung werden vorbereitete Images verwendet und die eigentlichen Entwicklungsserver (z.B. Vite, Uvicorn) laufen außerhalb von Docker oder in eigenen Dev-Images.
+For local development, prepared images are used and the actual development servers (e.g., Vite, Uvicorn) run outside of Docker or in their own dev images.
 
-- Starte die Entwicklungsumgebung mit:
+- Start the development environment with:
 
   ```bash
   docker compose -f docker-compose.dev.yml up
   ```
 
-- Passe ggf. die Umgebungsvariablen in einer `.env`-Datei an.
+- Adjust the environment variables in a `.env` file if necessary.
 
-### Hinweise
+### Notes
 
-- Die alten Dockerfiles und Compose-Dateien wurden in den `build/`-Ordner verschoben.
-- Für lokale Entwicklung empfiehlt sich, das Frontend direkt mit `npm run dev` und das Backend mit `uvicorn` zu starten, um Hot-Reload zu nutzen.
-- Die Datenbank bleibt persistent im Volume `db_data`.
+- The old Dockerfiles and Compose files have been moved to the `build/` folder.
+- For local development, it is recommended to start the frontend directly with `npm run dev` and the backend with `uvicorn` to use hot-reload.
+- The database remains persistent in the `db_data` volume.
 
-## Backend-Image bauen und pushen
+## Build and Push Backend Image
 
-Um das Backend-Image zu bauen und in die Registry zu pushen, führe aus:
+To build the backend image and push it to the registry, run:
 
 ```bash
-# Einmalig anmelden (nur nötig, wenn du noch nicht eingeloggt bist)
+# Log in once (only needed if you are not already logged in)
 docker login
 
-# Image bauen und pushen (TAG ersetzen, z.B. "latest" oder "v1")
+# Build and push the image (replace TAG, e.g., "latest" or "v1")
 ./build_and_push_backend.sh <TAG>
 ```
 
-Das Image wird als `orchestranexus/agentbox:<TAG>` gebaut und gepusht.
+The image will be built and pushed as `orchestranexus/agentbox:<TAG>`.
 
-Passe anschließend in deiner `docker-compose.yml` den Backend-Service an:
+Then adjust the backend service in your `docker-compose.yml`:
 
 ```yaml
 backend:
@@ -232,7 +242,7 @@ backend:
   ...
 ```
 
-Danach kannst du wie gewohnt mit Compose starten:
+You can then start as usual with Compose:
 
 ```bash
 docker compose up
